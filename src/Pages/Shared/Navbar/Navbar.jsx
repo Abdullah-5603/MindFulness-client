@@ -18,7 +18,7 @@ const NavBar = () => {
                 </div>
                 <div className='flex items-center md:space-x-5 px-3 md:px-5'>
                     <img className='w-24 -ml-5 md:-mr-5' src="https://i.ibb.co/59GRBKK/logo.png" alt="logo" border="0" />
-                    <p className=" text-xl hidden md:block md:text-3xl md:font-bold">MindFullness</p>
+                    <p className=" text-xl hidden md:block md:text-3xl md:font-bold">MindFulness</p>
                 </div>
             </div>
             <div className='md:space-x-8 font-bold hidden md:flex'>
