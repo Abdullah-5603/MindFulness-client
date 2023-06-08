@@ -17,6 +17,9 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { user, setUser, loading, setLoading, createUser, googleSignInUser, updateUserProfile } = useAuth()
     const onSubmit = async data => {
+        const name = data.name;
+        const password = data.password;
+        const email = data.email;
         if(data.password !== data.confirmPassword){
             setPasswordError('Password did not match. Try again')
             return;
@@ -31,39 +34,36 @@ const Login = () => {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    setPhotoUrl(data.data.display_url)
-                }
-            })
-
-        await createUser(data.email, data.password)
-            .then((result) => {
-                const user = result.user;
-                updateUserProfile(data.name, photoUrl)
-                    .then(() => {
+                const imageUrl = data.data.display_url
+                createUser(email, password)
+                .then((result) => {
+                    const user = result.user;
+                    updateUserProfile(name, imageUrl)
+                        .then(() => {
+                            setLoading(false)
+                         })
+                        .catch((err) => {
+                            const errorMessage = err.message;
+                            setLoading(false)
+                            console.log(errorMessage);
+                        });
+                        const savedUser = {name: data.name ,email: user.email, role: 'student'}
+                        axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
+                })
+                .catch((err) => {
+                    const errorMessage = err.message;
+                    if (errorMessage === 'Firebase: Error (auth/invalid-email).') {
+                        setError('Please input a valid email address');
                         setLoading(false)
-                     })
-                    .catch((err) => {
-                        const errorMessage = err.message;
+                    } else if (errorMessage === 'Firebase: Error (auth/email-already-in-use).') {
+                        setError('This email already exists. Please login');
                         setLoading(false)
-                        console.log(errorMessage);
-                    });
-                    const savedUser = {name: data.name ,email: user.email, role: 'student'}
-                    axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
+                    } else if(errorMessage === 'Firebase: Error (auth/popup-closed-by-user).'){
+                        setLoading(false)
+                    }
+                    console.log(errorMessage);
+                });
             })
-            .catch((err) => {
-                const errorMessage = err.message;
-                if (errorMessage === 'Firebase: Error (auth/invalid-email).') {
-                    setError('Please input a valid email address');
-                    setLoading(false)
-                } else if (errorMessage === 'Firebase: Error (auth/email-already-in-use).') {
-                    setError('This email already exists. Please login');
-                    setLoading(false)
-                } else if(errorMessage === 'Firebase: Error (auth/popup-closed-by-user).'){
-                    setLoading(false)
-                }
-                console.log(errorMessage);
-            });
     }
     // console.log(user)
     const handleGoogleSignIn = () => {

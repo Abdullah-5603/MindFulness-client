@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const Classes = () => {
     const { user } = useAuth()
@@ -23,7 +24,15 @@ const Classes = () => {
     },[])
 
     const handleSelect = (singleClass) => {
-        const selectedClass = { singleClass, studentEmail: user?.email }
+        if(!user){
+            Swal.fire({
+                icon: 'error',
+                text: 'Without login you can not select class',
+                footer: '<a href="/login">Please login</a>'
+            })
+            return;
+        }
+        const selectedClass = { singleClass, studentEmail: user?.email, classId: singleClass._id }
         axios.post(`${import.meta.env.VITE_BASE_URL}/selected-class`, selectedClass)
             .then(res => {
                 if (res.data.acknowledged) {
@@ -37,6 +46,10 @@ const Classes = () => {
             })
     }
     return (
+        <>
+        <Helmet>
+            <title>MindFulness || All Classes</title>
+        </Helmet>
         <div className='md:p-10 my-10'>
             <p className='text-3xl font-bold mb-10 text-center'>All Classes</p>
             <div className='grid md:grid-cols-3 grid-cols-1 gap-4'>
@@ -53,6 +66,7 @@ const Classes = () => {
                     </div>)}
             </div>
         </div>
+        </>
     );
 };
 
