@@ -40,7 +40,7 @@ const Login = () => {
         googleSignInUser()
         .then(result =>{
             const user = result.user
-            const savedUser = {name: user.displayName ,email: user.email}
+            const savedUser = {name: user.displayName ,email: user.email, role: 'student'}
             axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
             setUser(user)
             setLoading(false)

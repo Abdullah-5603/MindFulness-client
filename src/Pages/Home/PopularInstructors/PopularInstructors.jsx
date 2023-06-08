@@ -11,7 +11,7 @@ const PopularInstructors = () => {
             return response.data
         }
     })
-    console.log(instructors)
+    // console.log(instructors)
     return (
         <div className='px-6 md:px-10 mb-10'>
             <p className='text-4xl uppercase font-bold text-center mb-5'>Our Popular Instructors</p>

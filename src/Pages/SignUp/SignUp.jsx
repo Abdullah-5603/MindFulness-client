@@ -48,7 +48,7 @@ const Login = () => {
                         setLoading(false)
                         console.log(errorMessage);
                     });
-                    const savedUser = {name: data.name ,email: user.email}
+                    const savedUser = {name: data.name ,email: user.email, role: 'student'}
                     axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
             })
             .catch((err) => {
@@ -70,7 +70,7 @@ const Login = () => {
         googleSignInUser()
             .then(result => {
                 const user = result.user
-                const savedUser = {name: user.displayName ,email: user.email}
+                const savedUser = {name: user.displayName ,email: user.email, role: 'student'}
                 axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
                 setUser(result.user)
                 setLoading(false)
