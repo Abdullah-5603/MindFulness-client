@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { useAuth } from '../../Hooks/useAuth';
 import Loader from '../Shared/Loader/Loader';
+import axios from 'axios';
 
 const Login = () => {
     const [show, setShow] = useState(true)
@@ -47,6 +48,8 @@ const Login = () => {
                         setLoading(false)
                         console.log(errorMessage);
                     });
+                    const savedUser = {name: data.name ,email: user.email}
+                    axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
             })
             .catch((err) => {
                 const errorMessage = err.message;
@@ -56,6 +59,8 @@ const Login = () => {
                 } else if (errorMessage === 'Firebase: Error (auth/email-already-in-use).') {
                     setError('This email already exists. Please login');
                     setLoading(false)
+                } else if(errorMessage === 'Firebase: Error (auth/popup-closed-by-user).'){
+                    setLoading(false)
                 }
                 console.log(errorMessage);
             });
@@ -64,10 +69,16 @@ const Login = () => {
     const handleGoogleSignIn = () => {
         googleSignInUser()
             .then(result => {
+                const user = result.user
+                const savedUser = {name: user.displayName ,email: user.email}
+                axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
                 setUser(result.user)
                 setLoading(false)
             })
             .catch(err => {
+                if(err.message === 'Firebase: Error (auth/popup-closed-by-user).'){
+                    setLoading(false)
+                }
                 console.log(err.message)
                 setLoading(false)
             })
@@ -85,7 +96,8 @@ const Login = () => {
                 <p className='text-4xl font-bold text-center mb-5'>Sign Up</p>
                 <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                     <label className='text-xl font-semibold mb-3'>Name</label>
-                    <input placeholder='Name' className='mb-5 p-3 focus:outline-none' {...register('name')} />
+                    <input placeholder='Name' className='mb-5 p-3 focus:outline-none' {...register('name', {required:true})} />
+                    {errors?.name?.types === 'required' && <p className='text-red-800 mb-2'>Name is required</p>}
                     <label className='text-xl font-semibold mb-3'>Email</label>
                     <input placeholder='Email' className='mb-5 p-3 focus:outline-none' {...register('email', { required: true })} />
                     {errors?.email?.types === 'required' && <p className='text-red-800 mb-2'>Email is required</p>}

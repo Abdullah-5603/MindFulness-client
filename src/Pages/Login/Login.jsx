@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { useAuth } from '../../Hooks/useAuth';
 import Loader from '../Shared/Loader/Loader';
+import axios from 'axios';
 
 const Login = () => {
     const [show, setShow] = useState(true)
@@ -38,10 +39,16 @@ const Login = () => {
     const handleGoogleSignIn = () =>{
         googleSignInUser()
         .then(result =>{
-            setUser(result.user)
+            const user = result.user
+            const savedUser = {name: user.displayName ,email: user.email}
+            axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
+            setUser(user)
             setLoading(false)
         })
         .catch(err =>{
+            if(err.message === 'Firebase: Error (auth/popup-closed-by-user).'){
+                setLoading(false)
+            }
             console.log(err.message)
             setLoading(false)
         })

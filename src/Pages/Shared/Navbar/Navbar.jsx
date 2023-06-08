@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../Hooks/useAuth';
 import { FaBars, FaUser } from 'react-icons/fa';
 
 const Navbar = () => {
+    const location = useLocation()
     const { user, signOutUser } = useAuth()
 
     const handleSignOut = () => {
@@ -16,7 +17,7 @@ const Navbar = () => {
     // console.log(user)
 
     return (
-        <div className="flex mt-0 justify-between md:max-w-[1400px] navbar fixed z-10 md:px-5 bg-opacity-30 bg-black md:h-20 text-white">
+        <div className="flex mt-0 justify-between navbar fixed z-10 md:px-5 bg-opacity-30 bg-black md:h-20 text-white">
             <div className='w-full flex justify-between'>
                <div className='flex'>
                <div className="dropdown">
@@ -25,8 +26,8 @@ const Navbar = () => {
                     </label>
                     <div tabIndex={0} className='md:space-x-8 menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-28'>
                         <Link className={location.pathname === '/' && 'text-[#8dc7ea]'} to='/'>Home</Link>
-                        <Link className={location.pathname === '/allToys' && 'text-[#8dc7ea]'} to='/allToys'>Instructors</Link>
-                        <Link className={location.pathname === '/blog' && 'text-[#8dc7ea]'} to='/blog'>Classes</Link>
+                        <Link className={location.pathname === '/instructors' && 'text-[#8dc7ea]'} to='/instructors'>Instructors</Link>
+                        <Link className={location.pathname === '/classes' && 'text-[#8dc7ea]'} to='/classes'>Classes</Link>
                     </div>
                     </div>
                 <div className='flex items-center md:space-x-5 px-3 md:px-5'>
@@ -53,8 +54,8 @@ const Navbar = () => {
             </div>
             <div className='md:space-x-8 font-bold hidden md:flex'>
                 <Link className={location.pathname === '/' && 'text-[#8dc7ea]'} to='/'>Home</Link>
-                <Link className={location.pathname === '/allToys' && 'text-[#8dc7ea]'} to='/allToys'>Instructors</Link>
-                <Link className={location.pathname === '/blog' && 'text-[#8dc7ea]'} to='/blog'>Classes</Link>
+                <Link className={location.pathname === '/instructors' && 'text-[#8dc7ea]'} to='/instructors'>Instructors</Link>
+                <Link className={location.pathname === '/classes' && 'text-[#8dc7ea]'} to='/classes'>Classes</Link>
                 {
                     user ? <div className='flex items-center bg-base-100 pl-5 pr-2 h-10 w-20 text-black rounded-3xl'>
                         <div className="dropdown dropdown-end">
