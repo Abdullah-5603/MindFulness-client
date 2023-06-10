@@ -29,10 +29,10 @@ const MyEnrolledClasses = () => {
                     {enrolledClasses.map((classes, index) =>
                         <tr key={classes._id} className='hover'>
                             <th>{index + 1}</th>
-                            <td><img className='w-20' src={classes.singleClass.image} alt="" /></td>
-                            <td>{classes.singleClass.className}</td>
-                            <td>{classes.singleClass.instructorName}</td>
-                            <td>{classes.singleClass.instructorEmail}</td>
+                            <td><img className='w-20' src={classes?.singleClass?.image} alt="" /></td>
+                            <td>{classes?.singleClass?.className}</td>
+                            <td>{classes?.singleClass?.instructorName}</td>
+                            <td>{classes?.singleClass?.instructorEmail}</td>
                         </tr>)}
                 </tbody>
             </table>

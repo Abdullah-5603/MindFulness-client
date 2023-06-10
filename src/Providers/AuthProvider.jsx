@@ -41,17 +41,19 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                try {
-                  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/jwt`, { email: currentUser.email });
-                  localStorage.setItem('access-token', response.data.token);
-                } catch (error) {
-                  console.log('Failed to obtain JWT token:', error);
-                }
-              } else {
-                localStorage.removeItem('access-token');
-              }
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            // if (currentUser) {
+            //     try {
+            //       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/jwt`, { email: currentUser.email });
+            //       localStorage.setItem('access-token', response.data.token);
+            //     } catch (error) {
+            //       console.log('Failed to obtain JWT token:', error);
+            //     }
+            //   } else {
+            //     signOutUser()
+            //     .then(()=>{})
+            //     localStorage.removeItem('access-token');
+            //   }
             setUser(currentUser);
             setLoading(false);
         });

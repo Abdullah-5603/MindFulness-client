@@ -79,12 +79,12 @@ const Login = () => {
                 {
                     loading && <Loader/>
                 }
-                <p className='text-4xl font-bold text-center mb-5'>Login</p>
+                <p className='text-4xl font-bold text-center mb-5 text-black'>Login</p>
                 <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                    <label className='text-xl font-semibold mb-3'>Email</label>
+                    <label className='text-xl font-semibold mb-3 text-black'>Email</label>
                     <input placeholder='Email' className='mb-5 p-3 focus:outline-none' {...register('email', {required: true})} />
                     {errors?.email?.type === 'required' && <p className='text-red-800 mb-2'>This field is required</p>}
-                    <label className='text-xl font-semibold mb-3'>Password</label>
+                    <label className='text-xl font-semibold mb-3 text-black'>Password</label>
                     <div className='relative w-full'>
                         <input placeholder='Password' className='mb-5 w-full p-3 focus:outline-none' type={show ? 'text' : 'password'} {...register('password', { required: true })}/>
                         <div onClick={()=> setShow(!show)} className='absolute inset-y-0 right-3 top-3.5'>
@@ -92,12 +92,12 @@ const Login = () => {
                         </div>
                     </div>
                     {errors?.password?.type === 'required' && <p className='text-red-800 mb-2'>This field is required</p>}
-                    <p className='mb-3'>Have not any account ? <Link to='/sign-up'><span className='underline'>Cerate Account</span></Link></p>
+                    <p className='mb-3 text-black'>Have not any account ? <Link to='/sign-up'><span className='underline'>Cerate Account</span></Link></p>
                     <p className='text-red-800 py-3'>{error}</p>
                     <button type='submit' className='btn  btn-primary font-bold'>Login</button>
                 </form>
-                <div className='divider'>Or</div>
-                <div onClick={handleGoogleSignIn} className='cursor-pointer flex items-center justify-evenly w-full py-3 px-2 md:px-10 mx-auto border-2 mt-3 border-gray-500 rounded-full'><FcGoogle className='w-7 h-7' /> <p className='font-bold md:text-xl text-center'>Sign in with Google</p></div>
+                <div className='divider text-black'>Or</div>
+                <div onClick={handleGoogleSignIn} className='text-black cursor-pointer flex items-center justify-evenly w-full py-3 px-2 md:px-10 mx-auto border-2 mt-3 border-gray-500 rounded-full'><FcGoogle className='w-7 h-7' /> <p className='font-bold md:text-xl text-center'>Sign in with Google</p></div>
             </div>
         </>
     );

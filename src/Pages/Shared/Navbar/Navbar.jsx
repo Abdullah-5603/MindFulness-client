@@ -30,7 +30,7 @@ const Navbar = () => {
         const localTheme = localStorage.getItem("theme");
         document.querySelector("html").setAttribute("data-theme", localTheme);
     }, [theme]);
-    console.log(theme)
+    // console.log(theme)
     return (
         <div className="navbar fixed z-10 top-0 md:px-5 bg-opacity-30 bg-black md:h-20 text-white">
             <div className='w-full flex justify-between'>
