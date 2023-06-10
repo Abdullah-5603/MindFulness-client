@@ -4,7 +4,7 @@ const Footer = () => {
     return (
         <footer className="footer bg-neutral text-neutral-content py-16 relative flex flex-col md:flex-row md:items-center md:justify-center">
             <div className="items-center mx-10 grid-flow-col md:place-self-center">
-            <img className='w-36 md:w-full -ml-5 md:-mr-5' src="https://i.ibb.co/59GRBKK/logo.png" alt="logo" border="0" />
+            <img className='w-36 md:w-full -ml-5 md:-mr-5' src="https://www.logomaker.com/api/main/images/1j+ojlxEOMkX9Wyqfhe43D6kh...KFqhNGkBvOwXs1M3EMoAJtligrhPBj...fgyPExevg9C3ktKMcs8" alt="logo" border="0" />
             </div>
             <div className='mx-10'>
                 <span className="footer-title">HELP & CUSTOMER SERVICE</span>

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from '../Firebase/Firebase.config';
+import axios from 'axios';
 
 export const AuthContext = createContext()
 
@@ -40,7 +41,17 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                try {
+                  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/jwt`, { email: currentUser.email });
+                  localStorage.setItem('access-token', response.data.token);
+                } catch (error) {
+                  console.log('Failed to obtain JWT token:', error);
+                }
+              } else {
+                localStorage.removeItem('access-token');
+              }
             setUser(currentUser);
             setLoading(false);
         });
@@ -58,7 +69,7 @@ const AuthProvider = ({ children }) => {
         signInUser,
         googleSignInUser,
         signOutUser,
-        updateUserProfile
+        updateUserProfile,
     };
 
     return (

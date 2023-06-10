@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { useAuth } from '../../Hooks/useAuth';
 import Loader from '../Shared/Loader/Loader';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const [show, setShow] = useState(true)
     const [error, setError] = useState('')
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const { setUser, loading, setLoading, signInUser, googleSignInUser, updateUserProfile} = useAuth()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { setUser, loading, setLoading, signInUser, googleSignInUser} = useAuth();
+    const location = useLocation()
+    const navigate = useNavigate();
+    const from = location.state?.form?.pathname || '/'
+
     const onSubmit = data => {
         
         setError('')
@@ -20,7 +25,13 @@ const Login = () => {
         signInUser(data.email, data.password)
         .then(result =>{
             const user = result.user;
+            Swal.fire({
+                icon: 'success',
+                text: 'Login Successfully',
+            })
+            navigate(from, {replace : true});
             setLoading(false)
+            reset()
         })
         .catch(err =>{
             const errorMessage = err.message
@@ -40,10 +51,15 @@ const Login = () => {
         googleSignInUser()
         .then(result =>{
             const user = result.user
-            const savedUser = {name: user.displayName ,email: user.email, role: 'student'}
+            const savedUser = {name: user.displayName ,email: user.email, image: user.photoURL, role: 'student'}
             axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
             setUser(user)
             setLoading(false)
+            Swal.fire({
+                icon: 'success',
+                text: 'Login Successfully',
+              })
+            navigate(from, {replace : true});
         })
         .catch(err =>{
             if(err.message === 'Firebase: Error (auth/popup-closed-by-user).'){

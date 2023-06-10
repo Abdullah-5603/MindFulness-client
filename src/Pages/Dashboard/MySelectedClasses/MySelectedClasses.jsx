@@ -50,11 +50,11 @@ const MySelectedClasses = () => {
                     {selectedClasses.map((classes, index) =>
                         <tr key={classes._id} className='hover'>
                             <th>{index + 1}</th>
-                            <td><img className='w-20' src={classes.singleClass.image} alt="" /></td>
-                            <td>{classes.singleClass.className}</td>
-                            <td>{classes.singleClass.instructorName}</td>
-                            <td>{classes.singleClass.seats}</td>
-                            <td>{classes.singleClass.price}</td>
+                            <td><img className='w-20' src={classes?.singleClass?.image} alt="" /></td>
+                            <td>{classes?.singleClass?.className}</td>
+                            <td>{classes?.singleClass?.instructorName}</td>
+                            <td>{classes?.singleClass?.seats}</td>
+                            <td>{classes?.singleClass?.price}</td>
                             <td className='flex justify-between'><button onClick={()=>handleDelete(classes._id)} className='btn btn-error'>Delete</button><Link to={`/dashboard/payment/${classes._id}`}><button className='btn btn-success'>pay</button></Link></td>
                         </tr>)}
                 </tbody>

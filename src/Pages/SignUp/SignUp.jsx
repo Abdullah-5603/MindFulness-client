@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { useAuth } from '../../Hooks/useAuth';
 import Loader from '../Shared/Loader/Loader';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const [show, setShow] = useState(true)
@@ -16,6 +17,7 @@ const Login = () => {
     const [photoUrl, setPhotoUrl] = useState('')
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { user, setUser, loading, setLoading, createUser, googleSignInUser, updateUserProfile } = useAuth()
+    const navigate = useNavigate();
     const onSubmit = async data => {
         const name = data.name;
         const password = data.password;
@@ -40,6 +42,11 @@ const Login = () => {
                     const user = result.user;
                     updateUserProfile(name, imageUrl)
                         .then(() => {
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Sign up Successfully',
+                              })
+                            // navigate('/');
                             setLoading(false)
                          })
                         .catch((err) => {
@@ -47,7 +54,7 @@ const Login = () => {
                             setLoading(false)
                             console.log(errorMessage);
                         });
-                        const savedUser = {name: data.name ,email: user.email, role: 'student'}
+                        const savedUser = {name: name, email: user.email, image:imageUrl, role: 'student'}
                         axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
                 })
                 .catch((err) => {
@@ -70,9 +77,10 @@ const Login = () => {
         googleSignInUser()
             .then(result => {
                 const user = result.user
-                const savedUser = {name: user.displayName ,email: user.email, role: 'student'}
+                const savedUser = {name: user.displayName ,email: user.email, image: user.photoURL, role: 'student'}
                 axios.post(`${import.meta.env.VITE_BASE_URL}/all-users`, savedUser)
                 setUser(result.user)
+                // navigate('/')
                 setLoading(false)
             })
             .catch(err => {
