@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { Helmet } from 'react-helmet';
-import { AttentionSeeker, Rotate } from 'react-awesome-reveal';
+import { Rotate } from 'react-awesome-reveal';
 
 const Classes = () => {
     const { user } = useAuth()

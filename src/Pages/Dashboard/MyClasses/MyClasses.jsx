@@ -9,11 +9,11 @@ const MyClasses = () => {
     const { data: allClasses = [] } = useQuery({
         queryKey: ['my-classes'],
         queryFn: async () => {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/all-classes?email=${user?.email}`)
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/all-classes/${user?.email}`)
             return response.data
         }
     })
-    console.log(allClasses)
+    // console.log(allClasses)
     return (
         <div className='w-11/12 py-10 px-5 bg-base-300 shadow-2xl my-10'>
             <p className='text-3xl font-bold my-5 text-center'>My Classes : {allClasses.length}</p>

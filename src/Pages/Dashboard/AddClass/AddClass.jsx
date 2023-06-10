@@ -20,7 +20,7 @@ const AddClass = () => {
         const response = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_API_KEY}`, classPhoto)
         const image = response.data.data.display_url;
 
-        const classes = {className, image: image, instructorEmail: user?.email, instructorName: user?.displayName, seats, price, status: 'Pending', enrolledStudents: 0}
+        const classes = {className, image: image, instructorEmail: user?.email, instructorName: user?.displayName, seats, price, status: 'Pending', enrolledStudents: 0, date : new Date()}
 
         await axios.post(`${import.meta.env.VITE_BASE_URL}/all-classes`, classes)
         .then(res => {

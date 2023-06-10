@@ -1,10 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../Hooks/useAuth';
+import { FaHome, FaUniversity, FaUsers, FaUsersCog, FaWallet,  } from 'react-icons/fa';
+import { GiTeacher } from 'react-icons/gi';
+import { IoMdSchool } from 'react-icons/io';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 const Dashboard = () => {
-    const {user, loading} = useAuth();
+    const {user} = useAuth();
     const [currentUser, setCurrentUser] = useState({})
     
     useEffect(()=>{
@@ -13,6 +18,9 @@ const Dashboard = () => {
             setCurrentUser(res.data)
         })
     },[])
+
+    const theme = localStorage.getItem('theme')
+
     // console.log(currentUser)
 
     return (
@@ -27,45 +35,44 @@ const Dashboard = () => {
                 <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                 {
                     currentUser.role === 'instructor' && (
-                        <ul className="menu p-4 w-80 h-full text-base-content bg-slate-600">
+                        <ul id='active-route' className={`menu p-4 w-80 h-full text-base-content bg-slate-700 ${theme && 'text-black'}`}>
                         {/* Sidebar content here */}
-                        <li><Link to='/dashboard/add-class'><p className='font-bold text-base'>Add Class</p></Link></li>
-                        <li><Link to='/dashboard/my-classes'><p className='font-bold text-base'>My Classes</p></Link></li>
+                        <li><NavLink className={`font-bold text-base flex items-center ${({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" :  "" }`} to='/dashboard/add-class'><AddBusinessIcon className='mr-2'/>Add Class</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/dashboard/my-classes'><FaUniversity className='w-5 h-5 mr-3'/>My Classes</NavLink></li>
                         <div className='w-full px-3 border my-10'></div>
-                        <li><Link to='/'><p className='font-bold text-base'>Home</p></Link></li>
-                        <li><Link to='/instructors'><p className='font-bold text-base'>Instructors</p></Link></li>
-                        <li><Link to='/classes'><p className='font-bold text-base'>Classes</p></Link></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/'><FaHome className='w-5 h-5 mr-3'/>Home</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/instructors'><GiTeacher className='mr-3'/>Instructors</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/classes'><IoMdSchool className='w-5 h-5 mr-2'/>Classes</NavLink></li>
                     </ul>
                     )
                 }
                 {
                     currentUser.role === 'admin' && (
-                        <ul className="menu p-4 w-80 h-full text-base-content bg-slate-600">
+                        <ul className={`menu p-4 w-80 h-full text-base-content bg-slate-700 ${theme && 'text-black'}`}>
                         {/* Sidebar content here */}
-                        <li><Link to='/dashboard/manage-classes'><p className='font-bold text-base'>Manage Classes</p></Link></li>
-                        <li><Link to='/dashboard/manage-users'><p className='font-bold text-base'>Manage Users</p></Link></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/dashboard/manage-classes'><FaUsersCog className='w-5 h-5 mr-3'/>Manage Classes</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/dashboard/manage-users'><FaUsers className='w-5 h-5 mr-3'/> Manage Users</NavLink></li>
                         <div className='w-full px-3 border my-10'></div>
-                        <li><Link to='/'><p className='font-bold text-base'>Home</p></Link></li>
-                        <li><Link to='/instructors'><p className='font-bold text-base'>Instructors</p></Link></li>
-                        <li><Link to='/classes'><p className='font-bold text-base'>Classes</p></Link></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/'><FaHome className='w-5 h-5 mr-3'/>Home</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/instructors'><GiTeacher className='mr-3'/>Instructors</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/classes'><IoMdSchool className='w-5 h-5 mr-2'/>Classes</NavLink></li>
                     </ul>
                     )
                 }
                 {
                     currentUser.role === 'student' && (
-                        <ul className="menu p-4 w-80 h-full text-base-content bg-slate-600">
+                        <ul className={`menu p-4 w-80 h-full text-base-content bg-slate-700 ${theme && 'text-black'}`}>
                         {/* Sidebar content here */}
-                        <li><Link to='/dashboard/my-selected-classes'><p className='font-bold text-base'>My Selected Classes</p></Link></li>
-                        <li><Link to='/dashboard/my-enrolled-classes'><p className='font-bold text-base'>My Enrolled Classes</p></Link></li> 
-                        <li><Link to='/dashboard/payment-history'><p className='font-bold text-base'>Payment History</p></Link></li> 
+                        <li><NavLink className='font-bold text-base flex items-center' to='/dashboard/my-selected-classes'><ChecklistIcon className='mr-3'/>My Selected Classes</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/dashboard/my-enrolled-classes'><FaUniversity className='w-5 h-5 mr-3'/>My Enrolled Classes</NavLink></li> 
+                        <li><NavLink className='font-bold text-base flex items-center' to='/dashboard/payment-history'><FaWallet className='w-5 h-5 mr-3'/>Payment History</NavLink></li> 
                         <div className='w-full px-3 border my-10'></div>
-                        <li><Link to='/'><p className='font-bold text-base'>Home</p></Link></li>
-                        <li><Link to='/instructors'><p className='font-bold text-base'>Instructors</p></Link></li>
-                        <li><Link to='/classes'><p className='font-bold text-base'>Classes</p></Link></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/'><FaHome className='w-5 h-5 mr-3'/>Home</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/instructors'><GiTeacher className='mr-3'/>Instructors</NavLink></li>
+                        <li><NavLink className='font-bold text-base flex items-center' to='/classes'><IoMdSchool className='w-5 h-5 mr-2'/>Classes</NavLink></li>
                     </ul>
                     )
                 }
-
             </div>
         </div>
     );

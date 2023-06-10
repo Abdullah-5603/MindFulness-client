@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
+import { useAuth } from '../../../Hooks/useAuth';
 
 const MyEnrolledClasses = () => {
+    const {user} = useAuth()
     const { data: enrolledClasses = [], refetch } = useQuery({
         queryKey: ['selected-classes'],
         queryFn: async () => {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/enrolled-classes`)
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/enrolled-classes/${user?.email}`)
             return response.data
         }
     })
