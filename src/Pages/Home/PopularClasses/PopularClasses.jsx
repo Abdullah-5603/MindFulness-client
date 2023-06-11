@@ -19,6 +19,7 @@ const PopularClasses = () => {
                 setCurrentUser(res.data)
             })
     }, [])
+    // console.log(currentUser)
 
     const handleSelect = (singleClass) => {
         if (!user) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Fade, Slide } from "react-awesome-reveal";
 
 const Banner = () => {
+  console.log(localStorage.getItem('access-token'))
     return (
     <div className="carousel w-full mb-10">
     <div id="slide1" className="carousel-item relative w-full">

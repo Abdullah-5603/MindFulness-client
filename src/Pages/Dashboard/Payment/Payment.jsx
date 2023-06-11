@@ -10,8 +10,8 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 const Payment = () => {
     const selectedClass = useLoaderData()
 
-    const price = selectedClass.singleClass.price;
-    console.log(selectedClass.singleClass.price)
+    const price = selectedClass?.singleClass?.price.toFixed(2);
+    // console.log(selectedClass.singleClass.price)
     return (
         <div className='w-3/4 mx-auto mt-10 flex items-center flex-col'>
             <Helmet>

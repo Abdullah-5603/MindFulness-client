@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React, {useState } from 'react';
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 const ManageClasses = () => {
-    /**Class Image, Class name, Instructor name, Instructor email, Available seats, Price, 
-     * Status(pending/approved/denied) 3 buttons( Approve, Deny and send feedback */
     const [modal, setModal] = useState(false)
     const [selectedClassId, setSelectedClassId] = useState(null);
+    
     const { data: allClasses = [], refetch } = useQuery({
         queryKey: ['classes'],
         queryFn: async () => {
@@ -44,20 +44,23 @@ const ManageClasses = () => {
 
     return (
         <>
+            <Helmet>
+                <title>MindFulness || Manage Classes</title>
+            </Helmet>
             {
-                modal &&  <dialog className="modal modal-bottom sm:modal-middle" open>
-                <form onSubmit={handleSubmit} method="dialog" className="modal-box">
-                    <h3 className="font-bold text-lg">Feedback</h3>
-                    <div className="form-control mt-3">
-                    <textarea placeholder="Feedback" name='feedback' className="textarea textarea-bordered textarea-md w-full focus:outline-none" ></textarea>
-                    </div>
-                    <div className="modal-action">
-                        <button type='submit' className="btn">
-                            submit
-                        </button>
-                    </div>
-                </form>
-            </dialog>
+                modal && <dialog className="modal modal-bottom sm:modal-middle" open>
+                    <form onSubmit={handleSubmit} method="dialog" className="modal-box">
+                        <h3 className="font-bold text-lg">Feedback</h3>
+                        <div className="form-control mt-3">
+                            <textarea placeholder="Feedback" name='feedback' className="textarea textarea-bordered textarea-md w-full focus:outline-none" ></textarea>
+                        </div>
+                        <div className="modal-action">
+                            <button type='submit' className="btn">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </dialog>
             }
             <div className='w-11/12 py-10 px-5 bg-base-300 shadow-2xl my-10'>
                 <p className='text-3xl font-bold my-5 text-center'>All Classes: {allClasses.length}</p>
@@ -88,7 +91,7 @@ const ManageClasses = () => {
                                     <td>{classes.instructorEmail}</td>
                                     <td>{classes.price}</td>
                                     <td>{classes.seats}</td>
-                                    <td><button onClick={()=>handleModal(classes._id)} className='btn btn-primary'>Feedback</button></td>
+                                    <td><button onClick={() => handleModal(classes._id)} className='btn btn-primary'>Feedback</button></td>
                                     {
                                         classes.status === 'Pending' && <td><div className='text-sm p-3 rounded-full flex justify-center items-center border-2 border-yellow-600 font-semibold'>{classes.status}</div></td>
                                     }
