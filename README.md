@@ -17,5 +17,6 @@
     * React-Router
     * Express.js
     * MongoDB
+    * JWT
 
 ## Live site Link : https://mindfulness-59929.web.app/
